@@ -69,14 +69,15 @@ class SidebarView(
     }
 
     private fun launchAppInFreeform(appInfo: AppInfo) {
-        val intent = Intent(ACTION).apply {
-            setPackage(PACKAGE)
-            putExtra("packageName", appInfo.packageName)
-            putExtra("activityName", appInfo.activityName)
-            putExtra("userId", appInfo.userId)
-        }
-        context.sendBroadcastAsUser(intent, UserHandle(UserHandle.USER_CURRENT))
-        removeView()
+    val intent = Intent("org.rising.intent.START_MINI_WINDOW").apply {
+        putExtra("packageName", appInfo.packageName)
+        putExtra("activityName", appInfo.activityName)
+        putExtra("userId", appInfo.userId)
+        // 增加前台广播标记，确保点击后系统立即无延迟派发
+        addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+    }
+    context.sendBroadcastAsUser(intent, UserHandle(UserHandle.USER_CURRENT))
+    removeView()
     }
 
     @SuppressLint("ClickableViewAccessibility")

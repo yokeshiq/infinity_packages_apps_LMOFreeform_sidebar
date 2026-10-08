@@ -20,8 +20,7 @@ class AllAppActivity: ComponentActivity() {
     private val viewModel: AllAppViewModel by viewModels { AllAppViewModel.Factory }
 
     companion object {
-        private const val PACKAGE = "com.libremobileos.freeform"
-        private const val ACTION = "com.libremobileos.freeform.START_FREEFORM"
+        private const val ACTION = "org.rising.intent.START_MINI_WINDOW"
         private const val TAG = "AllAppActivity"
     }
 
@@ -47,10 +46,10 @@ class AllAppActivity: ComponentActivity() {
 
     private fun onClick(appInfo: AppInfo) {
         val intent = Intent(ACTION).apply {
-            setPackage(PACKAGE)
             putExtra("packageName", appInfo.packageName)
             putExtra("activityName", appInfo.activityName)
             putExtra("userId", appInfo.userId)
+            addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
         }
         sendBroadcast(intent)
         finish()
